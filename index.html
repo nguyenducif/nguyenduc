@@ -1,0 +1,559 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nguyễn Đức</title>
+  <meta name="description" content="Trang cá nhân Nguyễn Đức + hiệu ứng + nhạc nền" />
+
+  <style>
+    :root{
+      --bg:#0b1020;
+      --text:#eaf0ff;
+      --muted:#a9b4d0;
+      --border:rgba(255,255,255,.12);
+      --shadow: 0 18px 55px rgba(0,0,0,.45);
+      --glow: rgba(120,140,255,.28);
+      --radius: 18px;
+      --accent1:#6c7cff;
+      --accent2:#ff4da6;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      min-height:100vh;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 15% 15%, rgba(120,140,255,.20), transparent 60%),
+        radial-gradient(900px 500px at 85% 20%, rgba(255,80,180,.16), transparent 55%),
+        radial-gradient(900px 500px at 50% 90%, rgba(0,255,200,.10), transparent 60%),
+        var(--bg);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:24px;
+      overflow-x:hidden;
+    }
+    .wrap{width:min(980px,100%);}
+
+    /* FX layers */
+    #fxStars, #snow{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+    }
+    #fxStars{ z-index:0; }
+    #snow{ z-index:1; opacity:.95; }
+
+    /* Card */
+    .card{
+      position:relative;
+      z-index:2;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid var(--border);
+      border-radius:var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      backdrop-filter: blur(10px);
+    }
+    .top{
+      padding:26px 22px 18px;
+      display:flex;
+      gap:18px;
+      align-items:center;
+      border-bottom:1px solid var(--border);
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(8px);
+    }
+    .avatar{
+      width:74px;height:74px;border-radius:20px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.22), transparent 40%),
+        linear-gradient(135deg, rgba(108,124,255,.9), rgba(255,77,166,.8));
+      border:1px solid rgba(255,255,255,.18);
+      box-shadow: 0 12px 35px var(--glow);
+      flex:0 0 auto;
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      font-size:26px;
+      letter-spacing:.5px;
+    }
+    .name{margin:0;font-size:22px;line-height:1.15}
+    .bio{margin:6px 0 0;color:var(--muted);font-size:14px}
+    .row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    .chip{
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background: rgba(255,255,255,.05);
+      font-size:12px;
+      color:var(--muted);
+    }
+
+    .content{
+      padding:18px 22px 22px;
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap:16px;
+    }
+    @media (max-width: 820px){
+      .content{grid-template-columns:1fr}
+    }
+    .panel{
+      background: rgba(0,0,0,.18);
+      border:1px solid var(--border);
+      border-radius:16px;
+      padding:16px;
+    }
+    .panel h2{
+      margin:0 0 10px;
+      font-size:15px;
+      letter-spacing:.3px;
+    }
+    .info{
+      display:grid;
+      grid-template-columns: 120px 1fr;
+      gap:10px 12px;
+      font-size:14px;
+    }
+    .label{color:var(--muted)}
+    .value{overflow-wrap:anywhere}
+
+    .links{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap:10px;
+      margin-top:12px;
+    }
+    .btn{
+      display:flex; align-items:center; gap:10px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.03));
+      color:var(--text);
+      text-decoration:none;
+      transition: transform .12s ease, border-color .12s ease;
+      user-select:none;
+    }
+    .btn:hover{transform: translateY(-2px); border-color: rgba(255,255,255,.22)}
+    .btn:active{transform: translateY(0px) scale(.99)}
+    .icon{
+      width:36px;height:36px;border-radius:12px;
+      display:grid;place-items:center;
+      background: rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.12);
+      font-weight:700;
+    }
+    .btn small{display:block;color:var(--muted);margin-top:2px;font-size:12px}
+
+    footer{
+      padding:14px 22px 18px;
+      color:var(--muted);
+      font-size:12px;
+      border-top:1px solid var(--border);
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    a{ color: inherit; }
+    .hint{opacity:.9; color:var(--muted); font-size:12px}
+
+    .tapNotice{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.45;
+    }
+
+    /* Music button */
+    #musicToggle{
+      position:fixed;
+      bottom:18px;
+      right:18px;
+      z-index:999;
+      width:60px;
+      height:60px;
+      border-radius:50%;
+      border:none;
+      cursor:pointer;
+      font-size:22px;
+      background:linear-gradient(135deg,var(--accent1),var(--accent2));
+      color:white;
+      box-shadow:0 10px 30px rgba(0,0,0,.5);
+      transition:.25s;
+      display:grid;
+      place-items:center;
+    }
+    #musicToggle:hover{ transform: scale(1.08); }
+    #musicToggle.playing{ animation:spin 3s linear infinite; }
+    @keyframes spin{ from{transform:rotate(0)} to{transform:rotate(360deg)} }
+  </style>
+</head>
+
+<body>
+  <!-- Effects -->
+  <canvas id="fxStars"></canvas>
+  <canvas id="snow"></canvas>
+
+  <main class="wrap">
+    <section class="card">
+      <header class="top">
+        <div class="avatar">ND</div>
+        <div>
+          <h1 class="name">Nguyễn Đức</h1>
+          <p class="bio">Trang cá nhân + hiệu ứng tuyết & sao rơi ✨</p>
+          <div class="row">
+            <span class="chip">🎂 09/12/2009</span>
+            <span class="chip">📍 Hà Nội</span>
+            <span class="chip">🎧 2AM</span>
+          </div>
+          <div class="tapNotice">
+            Lưu ý: Trên điện thoại, nhạc thường chỉ phát sau <b>1 lần chạm</b> (do trình duyệt chặn autoplay).
+          </div>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="panel">
+          <h2>Thông tin</h2>
+          <div class="info">
+            <div class="label">Họ tên</div>
+            <div class="value">Nguyễn Đức</div>
+
+            <div class="label">Ngày sinh</div>
+            <div class="value">09/12/2009</div>
+
+            <div class="label">Gmail</div>
+            <div class="value">
+              <a href="mailto:nguyenduc.if@gmail.com">nguyenduc.if@gmail.com</a>
+            </div>
+
+            <div class="label">Zalo</div>
+            <div class="value">0383530002</div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <h2>Liên kết</h2>
+          <div class="links">
+            <a class="btn" href="https://www.facebook.com/profile.php?id=61580936933848" target="_blank" rel="noopener">
+              <span class="icon">f</span>
+              <div>Facebook <small>profile.php?id=...</small></div>
+            </a>
+
+            <a class="btn" href="https://zalo.me/0383530002" target="_blank" rel="noopener">
+              <span class="icon">Z</span>
+              <div>Zalo <small>0383530002</small></div>
+            </a>
+
+            <a class="btn" href="https://www.threads.net/@nguyenduc.if" target="_blank" rel="noopener">
+              <span class="icon">@</span>
+              <div>Threads <small>@nguyenduc.if</small></div>
+            </a>
+
+            <a class="btn" href="https://www.tiktok.com/@nguyenducv_" target="_blank" rel="noopener">
+              <span class="icon">♪</span>
+              <div>TikTok <small>@nguyenducv_</small></div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div>© <span id="year"></span> Nguyễn Đức</div>
+        <div class="hint">Snow + Shooting Stars + Music</div>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Music (đặt file 2am.mp3 chung thư mục) -->
+  <audio id="bgMusic" loop>
+    <source src="2am.mp3" type="audio/mpeg">
+  </audio>
+  <button id="musicToggle" title="Bật/Tắt nhạc">🎵</button>
+
+  <script>
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // ===== Music: fade in + toggle + mobile first tap =====
+    const music = document.getElementById("bgMusic");
+    const musicBtn = document.getElementById("musicToggle");
+
+    let isFading = false;
+
+    function fadeInMusic(){
+      if(isFading) return;
+      isFading = true;
+      music.volume = 0;
+
+      const p = music.play();
+      if(p && typeof p.catch === "function"){
+        p.catch(()=> { isFading = false; });
+      }
+
+      let vol = 0;
+      const timer = setInterval(()=>{
+        if(music.paused){
+          clearInterval(timer);
+          isFading = false;
+          return;
+        }
+        vol += 0.02;
+        music.volume = Math.min(0.6, vol);
+        if(vol >= 0.6){
+          clearInterval(timer);
+          isFading = false;
+        }
+      }, 90);
+    }
+
+    function setPlayingUI(playing){
+      if(playing){
+        musicBtn.classList.add("playing");
+        musicBtn.textContent = "🎵";
+      }else{
+        musicBtn.classList.remove("playing");
+        musicBtn.textContent = "🔇";
+      }
+    }
+
+    // Try autoplay on load (có thể bị chặn)
+    window.addEventListener("load", () => {
+      music.volume = 0.0;
+      music.play().then(()=>{
+        fadeInMusic();
+        setPlayingUI(true);
+      }).catch(()=>{
+        setPlayingUI(false);
+      });
+    });
+
+    // First tap anywhere (mobile policy)
+    document.body.addEventListener("click", () => {
+      if(music.paused){
+        fadeInMusic();
+        setPlayingUI(true);
+      }
+    }, { once:true });
+
+    // Toggle button
+    musicBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if(music.paused){
+        fadeInMusic();
+        setPlayingUI(true);
+      }else{
+        music.pause();
+        setPlayingUI(false);
+      }
+    });
+  </script>
+
+  <!-- ===== Shooting Stars + Twinkling stars ===== -->
+  <script>
+    (() => {
+      const canvas = document.getElementById("fxStars");
+      const ctx = canvas.getContext("2d");
+
+      const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      let W = 0, H = 0;
+
+      const stars = [];
+      const meteors = [];
+      let lastMeteor = 0;
+
+      function rand(min, max){ return Math.random() * (max - min) + min; }
+
+      function resize() {
+        W = Math.floor(window.innerWidth);
+        H = Math.floor(window.innerHeight);
+        canvas.width = Math.floor(W * DPR);
+        canvas.height = Math.floor(H * DPR);
+        canvas.style.width = W + "px";
+        canvas.style.height = H + "px";
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        initStars();
+      }
+
+      function initStars(){
+        stars.length = 0;
+        const count = Math.floor((W * H) / 12000);
+        for(let i=0;i<count;i++){
+          stars.push({
+            x: Math.random()*W,
+            y: Math.random()*H,
+            r: rand(0.6, 1.8),
+            a: rand(0.10, 0.75),
+            tw: rand(0.004, 0.012)
+          });
+        }
+      }
+
+      function spawnMeteor(){
+        const fromLeft = Math.random() < 0.5;
+        const x = fromLeft ? rand(-0.2*W, 0.3*W) : rand(0.7*W, 1.2*W);
+        const y = rand(-0.2*H, 0.3*H);
+        const angle = rand(Math.PI*0.15, Math.PI*0.28);
+        const speed = rand(10, 18);
+        const len = rand(220, 420);
+
+        meteors.push({
+          x, y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed,
+          life: 0,
+          maxLife: rand(18, 35),
+          len,
+          w: rand(1.2, 2.2),
+          alpha: 1
+        });
+      }
+
+      function drawBackgroundStars(){
+        for(const s of stars){
+          s.a += (Math.random() - 0.5) * s.tw;
+          s.a = Math.max(0.08, Math.min(0.9, s.a));
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(255,255,255,${s.a})`;
+          ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+          ctx.fill();
+        }
+      }
+
+      function drawMeteors(){
+        for(let i=meteors.length-1;i>=0;i--){
+          const m = meteors[i];
+          m.x += m.vx;
+          m.y += m.vy;
+          m.life += 1;
+
+          const t = m.life / m.maxLife;
+          m.alpha = Math.max(0, 1 - t);
+
+          const tx = m.x - m.vx * (m.len / 10);
+          const ty = m.y - m.vy * (m.len / 10);
+
+          const grad = ctx.createLinearGradient(m.x, m.y, tx, ty);
+          grad.addColorStop(0, `rgba(255,255,255,${0.95*m.alpha})`);
+          grad.addColorStop(0.35, `rgba(255,255,255,${0.35*m.alpha})`);
+          grad.addColorStop(1, `rgba(255,255,255,0)`);
+
+          ctx.strokeStyle = grad;
+          ctx.lineWidth = m.w;
+          ctx.lineCap = "round";
+          ctx.beginPath();
+          ctx.moveTo(m.x, m.y);
+          ctx.lineTo(tx, ty);
+          ctx.stroke();
+
+          if(m.x > W+600 || m.y > H+600 || m.alpha <= 0){
+            meteors.splice(i, 1);
+          }
+        }
+      }
+
+      function loop(ts){
+        ctx.clearRect(0,0,W,H);
+
+        drawBackgroundStars();
+
+        if(ts - lastMeteor > rand(700, 1600)){
+          lastMeteor = ts;
+          spawnMeteor();
+          if(Math.random() < 0.25) spawnMeteor();
+        }
+
+        drawMeteors();
+        requestAnimationFrame(loop);
+      }
+
+      window.addEventListener("resize", resize);
+      resize();
+      requestAnimationFrame(loop);
+    })();
+  </script>
+
+  <!-- ===== Snow effect ===== -->
+  <script>
+    (() => {
+      const canvas = document.getElementById("snow");
+      const ctx = canvas.getContext("2d");
+
+      const DPR = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
+      let W=0, H=0;
+
+      let particles = [];
+      let numberOfParticles = 140;
+      let angle = 0;
+
+      function resize(){
+        W = Math.floor(window.innerWidth);
+        H = Math.floor(window.innerHeight);
+        canvas.width = Math.floor(W * DPR);
+        canvas.height = Math.floor(H * DPR);
+        canvas.style.width = W + "px";
+        canvas.style.height = H + "px";
+        ctx.setTransform(DPR,0,0,DPR,0,0);
+        createParticles();
+      }
+
+      function createParticles(){
+        particles = [];
+        for(let i=0;i<numberOfParticles;i++){
+          particles.push({
+            x: Math.random()*W,
+            y: Math.random()*H,
+            r: Math.random()*3.6 + 0.9,
+            d: Math.random()*numberOfParticles
+          });
+        }
+      }
+
+      function draw(){
+        ctx.clearRect(0,0,W,H);
+        ctx.beginPath();
+        for(const p of particles){
+          ctx.moveTo(p.x, p.y);
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
+        }
+        ctx.fillStyle = "rgba(255,255,255,0.78)";
+        ctx.fill();
+        update();
+        requestAnimationFrame(draw);
+      }
+
+      function update(){
+        angle += 0.01;
+        for(let i=0;i<particles.length;i++){
+          const p = particles[i];
+          p.y += Math.cos(angle + p.d) + 1 + p.r/2;
+          p.x += Math.sin(angle) * 1.8;
+
+          if(p.x > W+5 || p.x < -5 || p.y > H){
+            if(i % 3 > 0){
+              particles[i] = { x: Math.random()*W, y: -10, r: p.r, d: p.d };
+            } else {
+              if(Math.sin(angle) > 0){
+                particles[i] = { x: -5, y: Math.random()*H, r: p.r, d: p.d };
+              } else {
+                particles[i] = { x: W+5, y: Math.random()*H, r: p.r, d: p.d };
+              }
+            }
+          }
+        }
+      }
+
+      window.addEventListener("resize", resize);
+      resize();
+      draw();
+    })();
+  </script>
+</body>
+</html>

@@ -143,12 +143,38 @@
     .btn:hover{transform: translateY(-2px); border-color: rgba(255,255,255,.22)}
     .btn:active{transform: translateY(0px) scale(.99)}
     .icon{
-      width:36px;height:36px;border-radius:12px;
-      display:grid;place-items:center;
-      background: rgba(255,255,255,.08);
-      border:1px solid rgba(255,255,255,.12);
-      font-weight:700;
-    }
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  font-weight:700;
+  border:1px solid rgba(255,255,255,.12);
+}
+
+/* Facebook */
+.btn:nth-child(1) .icon{
+  background:#1877F2;
+  color:white;
+}
+
+/* Zalo */
+.btn:nth-child(2) .icon{
+  background:#0068FF;
+  color:white;
+}
+
+/* Instagram */
+.btn:nth-child(3) .icon{
+  background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF,#515BD4);
+  color:white;
+}
+
+/* TikTok */
+.btn:nth-child(4) .icon{
+  background:#000;
+  color:#fff;
+}
     .btn small{display:block;color:var(--muted);margin-top:2px;font-size:12px}
 
     footer{
@@ -207,11 +233,9 @@
         <div class="avatar">ND</div>
         <div>
           <h1 class="name">Nguyễn Đức</h1>
-          <p class="bio">Trang cá nhân + hiệu ứng tuyết & sao rơi ✨</p>
           <div class="row">
             <span class="chip">🎂 09/12/2009</span>
             <span class="chip">📍 Hà Nội</span>
-            <span class="chip">🎧 2AM</span>
           </div>
           <div class="tapNotice">
             Lưu ý: Trên điện thoại, nhạc thường chỉ phát sau <b>1 lần chạm</b> (do trình duyệt chặn autoplay).
@@ -223,45 +247,44 @@
         <div class="panel">
           <h2>Thông tin</h2>
           <div class="info">
-            <div class="label">Họ tên</div>
-            <div class="value">Nguyễn Đức</div>
 
             <div class="label">Ngày sinh</div>
             <div class="value">09/12/2009</div>
 
-            <div class="label">Gmail</div>
-            <div class="value">
-              <a href="mailto:nguyenduc.if@gmail.com">nguyenduc.if@gmail.com</a>
-            </div>
+<div class="label">Gmail</div>
+<div class="value" style="white-space:nowrap;">
+  <a href="mailto:nguyenduc.if@gmail.com">nguyenduc.if@gmail.com</a>
+</div>
 
-            <div class="label">Zalo</div>
+            <div class="label">SĐT</div>
             <div class="value">0383530002</div>
           </div>
         </div>
 
         <div class="panel">
-          <h2>Liên kết</h2>
           <div class="links">
-            <a class="btn" href="https://www.facebook.com/profile.php?id=61580936933848" target="_blank" rel="noopener">
-              <span class="icon">f</span>
-              <div>Facebook <small>profile.php?id=...</small></div>
-            </a>
 
-            <a class="btn" href="https://zalo.me/0383530002" target="_blank" rel="noopener">
-              <span class="icon">Z</span>
-              <div>Zalo <small>0383530002</small></div>
-            </a>
+  <a class="btn" href="https://www.facebook.com/profile.php?id=61580936933848" target="_blank" rel="noopener">
+    <span class="icon">f</span>
+    <div>Facebook <small>profile.php?id=...</small></div>
+  </a>
 
-            <a class="btn" href="https://www.threads.net/@nguyenduc.if" target="_blank" rel="noopener">
-              <span class="icon">@</span>
-              <div>Threads <small>@nguyenduc.if</small></div>
-            </a>
+  <a class="btn" href="https://zalo.me/0383530002" target="_blank" rel="noopener">
+    <span class="icon">Z</span>
+    <div>Zalo <small>0383530002</small></div>
+  </a>
 
-            <a class="btn" href="https://www.tiktok.com/@nguyenducv_" target="_blank" rel="noopener">
-              <span class="icon">♪</span>
-              <div>TikTok <small>@nguyenducv_</small></div>
-            </a>
-          </div>
+  <a class="btn" href="https://www.instagram.com/nguyenduc.if?igsh=bTRia2NxOGMzc25p" target="_blank" rel="noopener">
+    <span class="icon">📷</span>
+    <div>Instagram <small>@nguyenduc.if</small></div>
+  </a>
+
+  <a class="btn" href="https://www.tiktok.com/@nguyenducv_" target="_blank" rel="noopener">
+    <span class="icon">♪</span>
+    <div>TikTok <small>@nguyenducv_</small></div>
+  </a>
+
+</div>
         </div>
       </div>
 
